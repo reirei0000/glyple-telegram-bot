@@ -5,7 +5,7 @@ import tempfile
 import time
 import random
 from PIL import Image
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from draw import draw_glyph, draw_bg
 from data import glyphs
@@ -134,7 +134,7 @@ def bot(telegram_api_token):
     updater = Updater(telegram_api_token, use_context=True)
     dispatcher = updater.dispatcher
 
-    dispatcher.add_handler(CommandHandler('glyple', answer))
+    dispatcher.add_handler(MessageHandler(Filters.regex(r'^\w+$'), answer))
     dispatcher.add_handler(CommandHandler('start', reset))
     dispatcher.add_handler(CommandHandler('reset', reset))
 
