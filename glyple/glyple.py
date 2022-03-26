@@ -50,7 +50,8 @@ def reset(update, context):
         im.save(fp, 'png')
         fp.seek(0)
         context.bot.send_photo(
-            chat_id=chat_id, caption='Please /glyple glyphname.', photo=fp)
+            chat_id=chat_id,
+            caption='Please command\n/glyple [glyph name]', photo=fp)
 
 
 def glyphmask(qpoints, apoints):
@@ -85,7 +86,7 @@ def answer(update, context):
     logger.info(answer)
     glyph = next(filter(lambda g: answer.lower() in g[1], glyphs), None)
     if data['count'] <= 0:
-        update.message.reply_text('Expoit!\nPlease /reset')
+        update.message.reply_text('Please /reset')
         return
     elif glyph is None:
         update.message.reply_text('No such glyph.')
@@ -107,7 +108,10 @@ def answer(update, context):
 
     message = ''
     if data['question'][0] == glyph[0]:
-        message = '🎉\nCongraturation. Reset the game.'
+        message = '🎉\nReset the game.'
+        _reset(chat_id)
+    elif data['count'] <= 0:
+        message = 'Please /reset'
 
     with tempfile.TemporaryFile() as fp:
         fp.seek(0)
@@ -115,11 +119,6 @@ def answer(update, context):
         fp.seek(0)
         time.sleep(1)
         context.bot.send_photo(chat_id=chat_id, caption=message, photo=fp)
-
-    if message != '':
-        _reset(chat_id)
-    elif data['count'] <= 0:
-        message = 'Expoit!\nPlease /reset'
 
 
 def bot(telegram_api_token):
