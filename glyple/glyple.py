@@ -51,7 +51,7 @@ def reset(update, context):
         fp.seek(0)
         context.bot.send_photo(
             chat_id=chat_id,
-            caption='Please command\n/glyple [glyph name]', photo=fp)
+            caption='Please glyph name(nickname is NG)', photo=fp)
 
 
 def glyphmask(qpoints, apoints):
@@ -111,7 +111,7 @@ def answer(update, context):
         message = '🎉\nReset the game.'
         _reset(chat_id)
     elif data['count'] <= 0:
-        message = 'Please /reset'
+        message = f'{data["question"][1]}\nPlease /reset'
 
     with tempfile.TemporaryFile() as fp:
         fp.seek(0)
