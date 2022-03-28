@@ -108,10 +108,11 @@ def answer(update, context):
 
     message = ''
     if data['question'][0] == glyph[0]:
-        message = '🎉\nReset the game.'
+        message = 'You got it🎉\n/reset the game.'
         _reset(chat_id)
     elif data['count'] <= 0:
-        message = f'{data["question"][1]}\nPlease /reset'
+        message = f'Correct answer is {data["question"][1]}\nPlease /reset'
+        draw_glyph(im, (0, 0), (0x4a, 0x55, 0xc8, 255), data['question'][0])
 
     with tempfile.TemporaryFile() as fp:
         fp.seek(0)
@@ -135,6 +136,7 @@ def bot(telegram_api_token):
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(MessageHandler(Filters.regex(r'^\w+$'), answer))
+    dispatcher.add_handler(CommandHandler('glyple', answer))
     dispatcher.add_handler(CommandHandler('start', reset))
     dispatcher.add_handler(CommandHandler('reset', reset))
 
